@@ -13,11 +13,8 @@ public class Hand : MonoBehaviour
 
     public void organizeHand()
     {
-        float coordX = 100;
-        foreach(Card c in hand)
-        {
-            c.transform.position = new Vector2(coordX, 100);
-            coordX = coordX + 50;
+        foreach(Card c in hand){
+            c.gameObject.transform.SetAsLastSibling();
         }
     }
 

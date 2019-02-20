@@ -26,6 +26,15 @@ public class Card : MonoBehaviour
         gameObject.transform.Find("Front_Background").transform.Find("Front_Picture").GetComponent<Image>().sprite = cardImage;
     }
 
+    public void highlight(GameObject go)
+    {
+        go.SetActive(false);
+        go.transform.position = gameObject.transform.position;
+        go.transform.rotation = gameObject.transform.rotation;
+        gameObject.transform.SetAsLastSibling();
+        go.SetActive(true);
+    }
+
     #region Gets and Sets
     public void setCardName(string s)
     {

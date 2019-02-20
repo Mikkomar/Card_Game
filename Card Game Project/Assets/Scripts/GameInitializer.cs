@@ -22,10 +22,10 @@ public class GameInitializer : MonoBehaviour
         for(int i = 0; i < 7; i++)
         {
             GameObject temp = Instantiate(c);
-            temp.transform.SetParent(GameObject.Find("Canvas").transform);
+            temp.transform.SetParent(GameObject.Find("Canvas").transform.Find("HandUI").transform);
             hand.addCard(temp.GetComponent<Card>());
         }
-        //hand.organizeHand();
         hand.positionHand(canvasRectTransform.sizeDelta);
+        hand.organizeHand();
     }
 }
