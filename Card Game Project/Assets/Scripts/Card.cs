@@ -17,8 +17,8 @@ public class Card : MonoBehaviour
 
     public void setCardSize(int x, int y)
     {
-        gameObject.transform.Find("Back_Background").transform.localScale = new Vector3(x, 0, y);
-        gameObject.transform.Find("Front_Background").transform.localScale = new Vector3(x, 0, y);
+        gameObject.transform.Find("Back_Background").transform.localScale = new Vector2(x, y);
+        gameObject.transform.Find("Front_Background").transform.localScale = new Vector2(x, y);
     }
 
     public void initializeCard()
