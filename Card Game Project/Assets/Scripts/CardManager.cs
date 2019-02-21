@@ -7,6 +7,7 @@ public class CardManager : MonoBehaviour
 {
     GameObject cardHighlight;
     Hand hand;
+
     void Start()
     {
         cardHighlight = GameObject.Find("/Canvas/Highlight");
@@ -14,7 +15,6 @@ public class CardManager : MonoBehaviour
         hand = GameObject.Find("/Canvas/HandUI").GetComponent<Hand>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (EventSystem.current.IsPointerOverGameObject())
@@ -23,7 +23,7 @@ public class CardManager : MonoBehaviour
             data.position = Input.mousePosition;
             List<RaycastResult> raycastResults = new List<RaycastResult>();
             EventSystem.current.RaycastAll(data, raycastResults);
-            Debug.Log(raycastResults.Count);
+            //Debug.Log(raycastResults.Count);
             for(int i = 0; i < raycastResults.Count; i++)
             {
                 if (raycastResults[i].gameObject.GetComponentInParent<Card>() != null)
@@ -41,8 +41,4 @@ public class CardManager : MonoBehaviour
         }
     }
 
-    public void highlightCard()
-    {
-
-    }
 }

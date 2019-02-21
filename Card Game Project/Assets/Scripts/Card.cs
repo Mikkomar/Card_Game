@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
+    protected GameObject cardObject;
     protected string cardName;
     protected string flavorText;
     protected Sprite cardImage;
@@ -14,6 +15,10 @@ public class Card : MonoBehaviour
 
     protected string cardTypeID;
     protected string cardCultureID;
+
+    public Card()
+    {   
+    }
 
     public void setCardSize(int x, int y)
     {
@@ -36,6 +41,12 @@ public class Card : MonoBehaviour
     }
 
     #region Gets and Sets
+
+    public GameObject getCardObject()
+    {
+        return cardObject;
+    }
+
     public void setCardName(string s)
     {
         cardName = s;
