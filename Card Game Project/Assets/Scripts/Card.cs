@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Card : MonoBehaviour
 {
     protected GameObject cardObject;
+
     protected string cardName;
     protected string flavorText;
     protected Sprite cardImage;
@@ -15,6 +16,13 @@ public class Card : MonoBehaviour
 
     protected string cardTypeID;
     protected string cardCultureID;
+    protected string cardAgeID;
+
+    protected List<Effect> effects;
+
+    protected AudioClip audioOnPlay;
+    protected AudioClip audioOnDeath;
+    protected AudioClip audioOnAttack;
 
     public Card()
     {   
@@ -34,9 +42,10 @@ public class Card : MonoBehaviour
     public void highlight(GameObject go)
     {
         go.SetActive(false);
+        go.transform.SetParent(gameObject.transform);
         go.transform.position = gameObject.transform.position;
         go.transform.rotation = gameObject.transform.rotation;
-        gameObject.transform.SetAsLastSibling();
+        //gameObject.transform.SetAsLastSibling(); /* Makes the card appear on top of other cards */
         go.SetActive(true);
     }
 

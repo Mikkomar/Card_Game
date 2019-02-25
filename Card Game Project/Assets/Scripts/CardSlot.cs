@@ -14,7 +14,7 @@ public class CardSlot
 
     public void setCard(Card c)
     {
-        if (card.Equals(null))
+        if (card == null)
         {
             card = c;
         }
@@ -37,5 +37,10 @@ public class CardSlot
     public Vector3 getPosition()
     {
         return position;
+    }
+
+    public void setPosition(Vector3 pos)
+    {
+        position = pos;
     }
 }
