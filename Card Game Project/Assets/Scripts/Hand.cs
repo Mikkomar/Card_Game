@@ -5,10 +5,12 @@ using UnityEngine;
 public class Hand : MonoBehaviour
 {
     private List<Card> hand = new List<Card>();
+    private Vector2 position;
 
     public void addCard(Card c)
     {
         hand.Add(c);
+        c.setHand(this);
     }
 
     public void organizeHand()
@@ -20,6 +22,7 @@ public class Hand : MonoBehaviour
 
     public void positionHand(Vector2 pos)
     {
+        position = pos;
         float coordX = pos.x/2;
         float angle = 40;
         float cardPosX;
@@ -35,11 +38,23 @@ public class Hand : MonoBehaviour
             cardPosY = Mathf.Abs(Mathf.Sin(angle * Mathf.PI / 180)) * 42;
 
             hand[i].transform.position = new Vector2(coordX - cardPosX, 100 - cardPosY);
+            hand[i].transform.rotation = new Quaternion(0, 0, 0, 0);
             hand[i].transform.Rotate(0, 0, angle);
             hand[hand.Count-1-i].transform.position = new Vector2(coordX + cardPosX, 100 - cardPosY);
+            hand[hand.Count-1-i].transform.rotation = new Quaternion(0, 0, 0, 0);
             hand[hand.Count-1-i].transform.Rotate(0, 0, -angle);
             //coordX = coordX + 50;
             angle = angle - 40 / (hand.Count / 2);
         }
+    }
+
+    public List<Card> getCardsInHand()
+    {
+        return hand;
+    }
+
+    public Vector2 getPosition()
+    {
+        return position;
     }
 }

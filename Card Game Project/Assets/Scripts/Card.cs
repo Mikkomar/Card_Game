@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour
+public class Card : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     protected GameObject cardObject;
+    protected Hand hand;
 
     protected string cardName;
     protected string flavorText;
@@ -135,5 +137,25 @@ public class Card : MonoBehaviour
     {
         return cardCultureID;
     }
+
+    public void setHand(Hand h)
+    {
+        hand = h;
+    }
+
+    public Hand getHand()
+    {
+        return hand;
+    }
     #endregion
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        gameObject.transform.position = Input.mousePosition;
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        hand.positionHand(hand.getPosition());
+    }
 }

@@ -38,6 +38,8 @@ public class CardManager : MonoBehaviour
                     hand.organizeHand();
                 }
             }
+
+
         }
     }
 
