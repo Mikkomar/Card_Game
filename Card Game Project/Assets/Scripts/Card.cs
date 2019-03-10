@@ -4,10 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class Card : MonoBehaviour, IDragHandler, IEndDragHandler
+public class Card : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHandler
 {
     protected GameObject cardObject;
     protected Hand hand;
+    protected GameObject parent;
 
     protected string cardName;
     protected string flavorText;
@@ -25,6 +26,10 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler
     protected AudioClip audioOnPlay;
     protected AudioClip audioOnDeath;
     protected AudioClip audioOnAttack;
+
+    protected Vector3 originalPosition;
+    protected Quaternion originalAngle;
+    protected Vector2 clickPosition;
 
     public Card()
     {   
@@ -149,13 +154,74 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler
     }
     #endregion
 
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        if (hand != null)
+        {
+            parent = gameObject.transform.parent.gameObject;
+            originalPosition = gameObject.transform.position;
+            originalAngle = gameObject.transform.rotation;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(GetComponentInParent<RectTransform>(), eventData.position, eventData.pressEventCamera, out clickPosition);
+        }
+    }
+
     public void OnDrag(PointerEventData eventData)
     {
-        gameObject.transform.position = Input.mousePosition;
+        /* Only if card belongs to Hand, eg. it is not on the board */
+        if (hand != null)
+        {
+            RectTransform cardCenter = gameObject.transform as RectTransform;
+            Vector3 cardCenterPoint = new Vector3(cardCenter.sizeDelta.x * gameObject.transform.localScale.x / 2, cardCenter.sizeDelta.y * gameObject.transform.localScale.y / 2, 0);
+            gameObject.transform.rotation = new Quaternion(0, 0, 0, 0);
+            /* Check if held card has left HandUI */
+            if (gameObject.transform.position.y > parent.GetComponent<RectTransform>().sizeDelta.y){
+                /* If card has left HandUI, align and position it according to the board */
+                gameObject.transform.Rotate(90, 0, 0);
+                gameObject.transform.SetParent(GameObject.Find("Board/BoardCanvas").transform); // Set BoardCanvas as card's parent object
+                gameObject.transform.position = new Vector3(-Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -340)).x, Input.mousePosition.y - 61.5f, -340);
+                List<CardSlot> targetSlots = GameObject.Find("Board").GetComponent<BoardManager>().getPlayerBoard().getCardSlots(); // For checking if card is over a card slot on the board
+                for (int i = 0; i < targetSlots.Count; i++) /* Go through every slot on the board and check their availability */
+                {
+                    /* Check if card that's held is over an empty card slot on the board */
+                    if ((gameObject.transform.position.x >= (targetSlots[i].getPosition().x - 50) && gameObject.transform.position.x <= (targetSlots[i].getPosition().x + 50)) && targetSlots[i].getCard() == null)
+                    {
+                        GameObject.Find("Board").GetComponent<BoardManager>().highlightSlot(targetSlots[i]);
+                    }
+                }
+            }
+            /* If card is still over HandUI */
+            else
+            {
+                gameObject.transform.SetParent(parent.transform);
+                GameObject.Find("Board").GetComponent<BoardManager>().getHighlight().SetActive(false);
+                gameObject.transform.position = new Vector3(Input.mousePosition.x - clickPosition.x * gameObject.transform.localScale.x, Input.mousePosition.y - clickPosition.y * gameObject.transform.localScale.y, originalPosition.z);
+            }
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        hand.positionHand(hand.getPosition());
+        if (hand != null)
+        {
+            List<CardSlot> targetSlots = GameObject.Find("Board").GetComponent<BoardManager>().getPlayerBoard().getCardSlots(); // For checking if card is over a card slot on the board
+            for (int i = 0; i < targetSlots.Count; i++) /* Go through every slot on the board and check their availability */
+            {
+                /* Check if card that's held is over an empty card slot on the board */
+                if ((gameObject.transform.position.x >= (targetSlots[i].getPosition().x - 50) && gameObject.transform.position.x <= (targetSlots[i].getPosition().x + 50)) && targetSlots[i].getCard() == null)
+                {
+                    targetSlots[i].setCard(this);
+                    hand.removeCard(this);
+                    GameObject.Find("Board").GetComponent<BoardManager>().getHighlight().SetActive(false);
+                    Debug.Log("Card added to board");
+                    break;
+                }
+            }
+            if (hand != null) {
+                GameObject.Find("Board").GetComponent<BoardManager>().getHighlight().SetActive(false);
+                gameObject.transform.SetParent(parent.transform);
+                hand.positionHand(hand.getPosition());
+                hand.organizeHand();
+            }
+        }
     }
 }

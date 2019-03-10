@@ -24,6 +24,7 @@ public class CardManager : MonoBehaviour
             List<RaycastResult> raycastResults = new List<RaycastResult>();
             EventSystem.current.RaycastAll(data, raycastResults);
             //Debug.Log(raycastResults.Count);
+            //Debug.Log("MousePosition: " + Input.mousePosition);
             for(int i = 0; i < raycastResults.Count; i++)
             {
                 if (raycastResults[i].gameObject.GetComponentInParent<Card>() != null)

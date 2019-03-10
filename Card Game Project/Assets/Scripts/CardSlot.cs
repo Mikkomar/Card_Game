@@ -17,6 +17,7 @@ public class CardSlot
         if (card == null)
         {
             card = c;
+            c.gameObject.transform.position = position;
         }
         else
         {

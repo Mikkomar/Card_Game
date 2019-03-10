@@ -11,10 +11,12 @@ public class BoardManager : MonoBehaviour
     private Vector3 boardCenterCoordinates;
     private GameObject tempCard;
     private Canvas boardCanvas;
+    private GameObject slotHighlight;
 
     void Start()
     {
-
+        slotHighlight = GameObject.Find("SlotHighlight");
+        slotHighlight.SetActive(false);
     }
 
     public void initializeBoard()
@@ -26,7 +28,8 @@ public class BoardManager : MonoBehaviour
         enemyBoard = new Board(boardCenterCoordinates);
         tempCard = GameObject.Find("GameInitializer").GetComponent<GameInitializer>().getTempCard();
         boardCanvas = GameObject.Find("Board/BoardCanvas").GetComponent<Canvas>();
-        fillSlotsWithTempCards();
+
+        //fillSlotsWithTempCards();
         
         Debug.Log("Board initialized!");
     }
@@ -58,6 +61,14 @@ public class BoardManager : MonoBehaviour
         }  */
     }
 
+    public void addTempCard(CardSlot cs)
+    {
+        playerBoard.addCard(tempCard.GetComponent<Card>(), cs);
+        GameObject tmp = Instantiate(cs.getCard().gameObject, cs.getPosition(), cs.getCard().gameObject.transform.rotation);
+        tmp.transform.SetParent(boardCanvas.gameObject.transform);
+        tmp.transform.Rotate(90, 0, 0);
+    }
+
     public void updateBoard()
     {
         foreach(CardSlot slot in playerBoard.getCardSlots())
@@ -67,5 +78,27 @@ public class BoardManager : MonoBehaviour
 
             }
         }
+    }
+
+    public Board getPlayerBoard()
+    {
+        return playerBoard;
+    }
+    public void highlightSlot(CardSlot cs)
+    {
+        slotHighlight.transform.position = cs.getPosition();
+        slotHighlight.transform.rotation = new Quaternion(0, 0, 0, 0);
+        slotHighlight.transform.Rotate(90, 0, 0);
+        slotHighlight.SetActive(true);
+    }
+
+    public Vector3 getBoardCenterCoordinates()
+    {
+        return boardCenterCoordinates;
+    }
+
+    public GameObject getHighlight()
+    {
+        return slotHighlight;
     }
 }
