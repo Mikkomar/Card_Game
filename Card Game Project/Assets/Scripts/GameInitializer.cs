@@ -31,7 +31,7 @@ public class GameInitializer : MonoBehaviour
         sqliteConnection.Open();
         sqliteCommand = sqliteConnection.CreateCommand();
         commandText = "SELECT Title, FlavorText, CardImage, MilitaryPowerCost, CulturePowerCost, TechnologyPowerCost, TypeID, CultureID, AgeID, CardID FROM Cards";
-        Debug.Log("URI=file:" + Application.dataPath + cardDBPath + westernCards);
+        //Debug.Log("URI=file:" + Application.dataPath + cardDBPath + westernCards);
         sqliteCommand.CommandText = commandText;
         reader = sqliteCommand.ExecuteReader();
 

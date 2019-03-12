@@ -179,12 +179,12 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHand
                 /* If card has left HandUI, align and position it according to the board */
                 gameObject.transform.Rotate(90, 0, 0);
                 gameObject.transform.SetParent(GameObject.Find("Board/BoardCanvas").transform); // Set BoardCanvas as card's parent object
-                gameObject.transform.position = new Vector3(-Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -340)).x, Input.mousePosition.y - 61.5f, -340);
+                gameObject.transform.position = new Vector3(-Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1210)).x, new Vector3(Input.mousePosition.x, Input.mousePosition.y, -1210).y, 560);
                 List<CardSlot> targetSlots = GameObject.Find("Board").GetComponent<BoardManager>().getPlayerBoard().getCardSlots(); // For checking if card is over a card slot on the board
                 for (int i = 0; i < targetSlots.Count; i++) /* Go through every slot on the board and check their availability */
                 {
                     /* Check if card that's held is over an empty card slot on the board */
-                    if ((gameObject.transform.position.x >= (targetSlots[i].getPosition().x - 50) && gameObject.transform.position.x <= (targetSlots[i].getPosition().x + 50)) && targetSlots[i].getCard() == null)
+                    if ((gameObject.transform.position.x >= (targetSlots[i].getPosition().x - 120) && gameObject.transform.position.x <= (targetSlots[i].getPosition().x + 120)) && targetSlots[i].getCard() == null)
                     {
                         GameObject.Find("Board").GetComponent<BoardManager>().highlightSlot(targetSlots[i]);
                     }
@@ -208,7 +208,7 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHand
             for (int i = 0; i < targetSlots.Count; i++) /* Go through every slot on the board and check their availability */
             {
                 /* Check if card that's held is over an empty card slot on the board */
-                if ((gameObject.transform.position.x >= (targetSlots[i].getPosition().x - 50) && gameObject.transform.position.x <= (targetSlots[i].getPosition().x + 50)) && targetSlots[i].getCard() == null)
+                if ((gameObject.transform.position.x >= (targetSlots[i].getPosition().x - 120) && gameObject.transform.position.x <= (targetSlots[i].getPosition().x + 120)) && targetSlots[i].getCard() == null)
                 {
                     targetSlots[i].setCard(this);
                     hand.removeCard(this);

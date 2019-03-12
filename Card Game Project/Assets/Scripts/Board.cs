@@ -30,7 +30,7 @@ public class Board
         for(int i = 0; i <= cardPositions.Count/2; i++)
         {
             Vector3 origPos = cardPositions[i].getPosition();
-            float maxCardDistance = 350;
+            float maxCardDistance = 860;
             float cardDistance = (maxCardDistance*2)/cardPositions.Count;
             cardPositions[i].setPosition(new Vector3(-(cardDistance * (cardPositions.Count-1)/2) + i * cardDistance, origPos.y, origPos.z));
             cardPositions[cardPositions.Count-i-1].setPosition(new Vector3((cardDistance * (cardPositions.Count-1) / 2) - i * cardDistance, origPos.y, origPos.z));
