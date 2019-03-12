@@ -43,6 +43,7 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHand
 
     public void initializeCard()
     {
+        gameObject.transform.Find("Front_Background").transform.Find("Front_Name").GetComponent<Text>().text = cardName;
         gameObject.transform.Find("Front_Background").transform.Find("Front_Picture").GetComponent<Image>().sprite = cardImage;
     }
 
