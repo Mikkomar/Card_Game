@@ -45,6 +45,9 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHand
     {
         gameObject.transform.Find("Front_Background").transform.Find("Front_Name").GetComponent<Text>().text = cardName;
         gameObject.transform.Find("Front_Background").transform.Find("Front_Picture").GetComponent<Image>().sprite = cardImage;
+        gameObject.transform.Find("Front_Background").transform.Find("Front_PowerCost").transform.Find("Front_MilitaryPowerCost").transform.Find("Front_PowerCost_Text").GetComponent<Text>().text = "" + militaryPowerCost;
+        gameObject.transform.Find("Front_Background").transform.Find("Front_PowerCost").transform.Find("Front_CulturePowerCost").transform.Find("Front_PowerCost_Text").GetComponent<Text>().text = "" + culturePowerCost;
+        gameObject.transform.Find("Front_Background").transform.Find("Front_PowerCost").transform.Find("Front_TechnologyPowerCost").transform.Find("Front_PowerCost_Text").GetComponent<Text>().text = "" + technologyPowerCost;
     }
 
     public void highlight(GameObject go)
@@ -225,4 +228,22 @@ public class Card : MonoBehaviour, IDragHandler, IEndDragHandler, IBeginDragHand
             }
         }
     }
+}
+
+public enum Age
+{
+    Ancient,
+    Medieval,
+    Renaissance,
+    Enlightenment,
+    Modern
+}
+
+public enum Culture
+{
+    Western,
+    Germanic,
+    Nordic,
+    Eastern,
+    Oriental
 }

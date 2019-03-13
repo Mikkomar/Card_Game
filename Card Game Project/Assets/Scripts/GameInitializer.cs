@@ -39,10 +39,7 @@ public class GameInitializer : MonoBehaviour
 
         fillHand(tempCard);
         boardManager.initializeBoard();
-        while (reader.Read())
-        {
-            testInitializeHand(sqliteConnection, sqliteCommand, reader);
-        }
+        testInitializeHand(sqliteConnection, sqliteCommand, reader);
         reader.Close();
         reader = null;
         sqliteCommand.Dispose();
@@ -78,9 +75,13 @@ public class GameInitializer : MonoBehaviour
         List<Card> cardsInHand = hand.getCardsInHand();
         foreach(Card c in cardsInHand)
         {
+            reader.Read();
             c.setCardName(reader.GetString(0));
             Debug.Log(reader.GetString(2));
             c.setCardImage(Resources.Load<Sprite>("Images/CardImages/" + reader.GetString(2)));
+            c.setMilitaryPowerCost(reader.GetInt32(3));
+            c.setCulturePowerCost(reader.GetInt32(4));
+            c.setTechnologyPowerCost(reader.GetInt32(5));
             c.initializeCard();
         }
     }

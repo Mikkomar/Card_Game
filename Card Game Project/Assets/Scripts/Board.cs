@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Board
 {
-    private List<Card> cardsOnBoard;
+    private List<Card> cardsOnBoard = new List<Card>();
+    private List<Card> deck = new List<Card>();
     private List<CardSlot> cardPositions;
     private Vector3 boardCenterCoordinates;
     public int maxCardsOnBoard = 7;
@@ -41,6 +42,7 @@ public class Board
     public void addCard(Card card, CardSlot slot)
     {
         slot.setCard(card);
+        cardsOnBoard.Add(card);
     }
 
     public List<CardSlot> getCardSlots()
