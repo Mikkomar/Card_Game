@@ -239,11 +239,12 @@ public enum Age
     Modern
 }
 
-public enum Culture
+public enum CultureType
 {
     Western,
     Germanic,
     Nordic,
     Eastern,
-    Oriental
+    Oriental,
+    Levantine
 }
